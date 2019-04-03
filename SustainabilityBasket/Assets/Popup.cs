@@ -1,31 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.TextCore;
-using UnityEngine.EventSystems;
-using UnityEngine.UI.CoroutineTween;
 using TMPro;
-using UnityEngine.Assertions;
+
 
 public class Popup : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI eventName;
-    [SerializeField] private TextMeshProUGUI eventDescription;
 
-    [SerializeField] private List<SliderBar> sliderBars;
-    private float maxValue = 0;
+    #region fields and properties
 
-    public string EventName {
+    [SerializeField] private TextMeshProUGUI eventName; //ref to the event name text
+    [SerializeField] private TextMeshProUGUI eventDescription; //ref to the event description text
+
+    [SerializeField] private List<SliderBar> sliderBars; //ref to the slider bars
+    [SerializeField] private float maxValue = 10; //maximum spending value
+
+    private string EventName {
         get { return eventName.text; }
         set { eventName.text = value; }
     }
-    public string EventDescription {
+    private string EventDescription {
         get { return eventDescription.text; }
         set { eventDescription.text = value; }
     }
-
-    public float SliderMax {
+    private float SliderMax {
         get { return sliderBars[0].Slider.maxValue; }
         set
         {
@@ -35,7 +33,7 @@ public class Popup : MonoBehaviour
             }
         }
     }
-    public Color SliderColor { 
+    private Color SliderColor { 
         get { return sliderBars[0].FillImage.color; }
         set
         {
@@ -46,29 +44,64 @@ public class Popup : MonoBehaviour
         }
     }
 
+    #endregion
+
     void Awake()
     {
-        Assert.IsNotNull(eventName);
-        Assert.IsNotNull(eventDescription);
-        Assert.IsNotNull(sliderBars[0]);
-
-        maxValue = SliderMax;
+        SliderMax = maxValue;
         foreach(SliderBar sliderBar in sliderBars)
         {
             sliderBar.Slider.onValueChanged.AddListener(CheckSlider);
         }
+        ResetSliders();
+        SliderColor = Color.green;
     }
 
+    public void TextCall()
+    {
+        StartNewEvent("Test Event", "Called by the Next Event button", 100);
+    }
+
+    public void StartNewEvent(string eventName, string eventDescription, float totalFunds )
+    {
+        EventName = eventName;
+        EventDescription = eventDescription;
+
+        SliderMax = totalFunds;
+        ResetSliders();
+    }
+
+    #region Helper methods
+
+    /// <summary>
+    /// sets the values of all the sliders to zero
+    /// </summary>
+    private void ResetSliders()
+    {
+        foreach (SliderBar sliderBar in sliderBars)
+        {
+            sliderBar.Slider.value = 0;
+        }
+        SliderColor = Color.green;
+    }
+
+    /// <summary>
+    /// called when the slider value is changed
+    /// </summary>
+    /// <param name="newVal">unused value of slider</param>
     private void CheckSlider(float newVal)
     {
         float total = 0;
-        foreach(SliderBar sliderBar in sliderBars)
+        foreach (SliderBar sliderBar in sliderBars)
         {
             total += sliderBar.Slider.value;
         }
         SliderColor = (total > maxValue) ? Color.red : Color.green;
         SetSliderText();
     }
+    /// <summary>
+    /// set the text for all the sliders
+    /// </summary>
 
     private void SetSliderText()
     {
@@ -77,6 +110,8 @@ public class Popup : MonoBehaviour
             sliderBar.Text.text = sliderBar.Slider.value.ToString();
         }
     }
+
+    #endregion
 
     [System.Serializable]
     public class SliderBar
