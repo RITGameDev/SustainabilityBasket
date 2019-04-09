@@ -14,6 +14,8 @@ public class TechItem : MonoBehaviour
 
     public bool startingVisibility;
     public GameObject infoPanel;
+
+    public int cost;
     #endregion
 
     #region Class Variables
@@ -62,6 +64,16 @@ public class TechItem : MonoBehaviour
     /// </summary>
     public void UnlockTech()
     {
+        /**
+         * TODO: DANE HOOK UP FUNDS THEN COMMENTS THIS OUT
+         * int currentFunds = something.getDemFunds();
+         * if(currentFunds < cost)
+         * {
+         *     return; 
+         * }
+         * 
+         * something.SetDemFunds(currentFunds - cost);
+         */
         foreach(TechItem t in childTechs)
         {
             t.isAvailable = true;
@@ -77,7 +89,7 @@ public class TechItem : MonoBehaviour
     /// </summary>
     private void OnDrawGizmos()
     {
-        foreach(TechItem t in childTechs)
+        foreach (TechItem t in childTechs)
         {
             Debug.DrawLine(gameObject.transform.position, t.gameObject.transform.position);
         }
