@@ -12,6 +12,19 @@ public class EventEditor : ScriptableObject
     public Rect windowRect;
     public string windowTitle;
 
+    CityData cityData;
+
+    enum CityData
+    {
+        money,
+        powerRequired,
+        powerSupplied,
+        AQI,
+        costOfLiving,
+        employmentRate,
+        population
+    }
+
     public EventEditor()
     {
         choiceName = "Input Name Here";

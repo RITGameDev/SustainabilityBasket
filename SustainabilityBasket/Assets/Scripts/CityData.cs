@@ -7,31 +7,31 @@ using TMPro;
 public class CityData : MonoBehaviour
 {
     [Header("Money")]
-    public int money;
+    public static int money;
     [SerializeField] private TextMeshProUGUI moneyText;
 
     [Space(5)]
     [Header("Power")]
-    public int powerRequired;
-    public int powerSupplied;
+    public static int powerRequired;
+    public static int powerSupplied;
     [SerializeField] private TextMeshProUGUI powerText;
 
     [Space(5)]
     [Header("Air Quality")]
-    public int AQI; //Air Quality Index
+    public static int AQI; //Air Quality Index
     private const int maxAQI = 500;
     [SerializeField] private Gradient AQIColor;
     [SerializeField] private TextMeshProUGUI AQIText;
 
     [Space(5)]
     [Header("Conditions")]
-    public float costOfLiving;
+    public static float costOfLiving;
     [SerializeField] private TextMeshProUGUI costOfLivingText;
 
-    [Range(0,1)]public float employmentRate;
+    [Range(0,1)]public static float employmentRate;
     [SerializeField] private TextMeshProUGUI employementRateText;
 
-    public int population;
+    public static int population;
     [SerializeField] private TextMeshProUGUI populationText;
 
 
