@@ -15,9 +15,6 @@ public class EventMaker : EditorWindow
 
     private void OnGUI()
     {
-        //EditorGUILayout.TextField("Event Name:", "")
-
-        //EditorGUILayout.BeginHorizontal();
         BeginWindows();
 
         for (int i = 0; i < eventWindows.Count; i++)
@@ -26,14 +23,13 @@ public class EventMaker : EditorWindow
         }
 
         EndWindows();
-        //EditorGUILayout.EndHorizontal();
 
-        if (GUI.Button(new Rect(position.width - 100, 0, 100, 15), "Add Event"))
+        if (GUI.Button(new Rect(0, 0, 100, 15), "Add Event"))
         {
-            eventWindows.Add(new EventEditor() { windowRect = new Rect(0, 0, 200, 280) });
+            eventWindows.Add(new EventEditor() { windowRect = new Rect(250, 0, position.width - 250, position.height) });
         }
 
-        if (GUI.Button(new Rect(position.width - 100, 20, 100, 15), "Delete All"))
+        if (GUI.Button(new Rect(0, 20, 100, 15), "Delete All"))
         {
             eventWindows.Clear();
         }
