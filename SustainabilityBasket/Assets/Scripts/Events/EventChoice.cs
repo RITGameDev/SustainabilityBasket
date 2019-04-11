@@ -10,16 +10,18 @@ public class EventChoice : MonoBehaviour
     private TextMeshProUGUI choiceName;
     [SerializeField]
     private TextMeshProUGUI statChanges;
+    [SerializeField]
+    private MajorEventDetails events;
 
-    public TextMeshProUGUI ChoiceName
+    public string ChoiceName
     {
-        get { return choiceName; }
-        set { choiceName = value; }
+        get { return choiceName.text; }
+        set { choiceName.text = value; }
     }
 
-    public TextMeshProUGUI StatChanges
+    public string StatChanges
     {
-        get { return statChanges; }
-        set { statChanges = value; }
+        get { return statChanges.text; }
+        set { statChanges.text = value; }
     }
 }

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd457f16bf68f6e4286f042bb2d41aad, type: 3}
   m_Name: MajorEvents
   m_EditorClassIdentifier: 
+  majorEvents: []

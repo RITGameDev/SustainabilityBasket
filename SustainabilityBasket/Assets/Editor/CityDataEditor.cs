@@ -9,8 +9,7 @@ public class CityDataEditor : Editor
     public override void OnInspectorGUI()
     {
         CityData cityData = (CityData)target;
-
-
+        
         EditorGUILayout.LabelField("Money", EditorStyles.boldLabel);
         CityData.money = EditorGUILayout.IntField("Money", CityData.money);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("moneyText"));

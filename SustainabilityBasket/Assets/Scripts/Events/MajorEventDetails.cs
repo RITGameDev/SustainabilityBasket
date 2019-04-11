@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct MajorEvents
+public class MajorEvents
 {
     public string eventName;
     public string eventDescription;
     public List<MajorEventChoices> choices;
+
+    [HideInInspector]
+    public bool showChoices = false;
 }
 
 [System.Serializable]
-public struct MajorEventChoices
+public class MajorEventChoices
 {
     public string choiceName;
     public List<float> statChanges;

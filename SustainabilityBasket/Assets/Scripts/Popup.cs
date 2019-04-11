@@ -6,7 +6,6 @@ using TMPro;
 
 public class Popup : MonoBehaviour
 {
-
     #region fields and properties
 
     [SerializeField] private TextMeshProUGUI eventName; //ref to the event name text
@@ -14,6 +13,9 @@ public class Popup : MonoBehaviour
 
     [SerializeField] private List<SliderBar> sliderBars; //ref to the slider bars
     [SerializeField] private float maxValue = 10; //maximum spending value
+
+    [SerializeField]private MajorEventDetails events;
+    [SerializeField] private EventChoice choiceMenu;
 
     private string EventName {
         get { return eventName.text; }
@@ -59,7 +61,15 @@ public class Popup : MonoBehaviour
 
     public void TextCall()
     {
-        StartNewEvent("Test Event", "Called by the Next Event button", 100);
+        if (events.majorEvents.Count == 0)
+        {
+            StartNewEvent("Test Event", "Called by the Next Event button", 100);
+        }
+        else
+        {
+            EventName = events.majorEvents[0].eventName;
+            EventDescription = events.majorEvents[0].eventDescription;
+        }
     }
 
     public void StartNewEvent(string eventName, string eventDescription, float totalFunds )

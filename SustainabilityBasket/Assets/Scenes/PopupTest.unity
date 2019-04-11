@@ -391,6 +391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choiceName: {fileID: 1651646593}
   statChanges: {fileID: 1737282965}
+  events: {fileID: 11400000, guid: f465bbf2bdb36574d9f858ee6eb1d7d7, type: 2}
 --- !u!224 &97150665 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1040383353521843916, guid: 4cae899fe949db247a0d05f3827c1bce,
@@ -2115,6 +2116,8 @@ MonoBehaviour:
     Text: {fileID: 1887352754}
     FillImage: {fileID: 1692198635}
   maxValue: 10
+  events: {fileID: 11400000, guid: f465bbf2bdb36574d9f858ee6eb1d7d7, type: 2}
+  choiceMenu: {fileID: 80397866}
 --- !u!1 &1651646591
 GameObject:
   m_ObjectHideFlags: 0
