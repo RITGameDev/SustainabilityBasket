@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d25a2ac6ad57e4d807842771afd0e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeline: {fileID: 0}
+  timeline: {fileID: 966984391}
 --- !u!224 &97150665 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1040383353521843916, guid: 4cae899fe949db247a0d05f3827c1bce,
