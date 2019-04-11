@@ -2024,6 +2024,7 @@ MonoBehaviour:
     Text: {fileID: 1887352754}
     FillImage: {fileID: 1692198635}
   maxValue: 10
+  events: {fileID: 11400000, guid: f465bbf2bdb36574d9f858ee6eb1d7d7, type: 2}
 --- !u!114 &1692198635 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2192389738535923062, guid: ca30fdc49006a1f47a7621fe93f1e046,
@@ -3461,6 +3462,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     FillImage: {fileID: 0}
   maxValue: 10
+  events: {fileID: 0}
 --- !u!222 &7684751245702606808
 CanvasRenderer:
   m_ObjectHideFlags: 0

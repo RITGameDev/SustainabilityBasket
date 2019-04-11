@@ -14,8 +14,7 @@ public class Popup : MonoBehaviour
     [SerializeField] private List<SliderBar> sliderBars; //ref to the slider bars
     [SerializeField] private float maxValue = 10; //maximum spending value
 
-    [SerializeField]private MajorEventDetails events;
-    [SerializeField] private EventChoice choiceMenu;
+    [SerializeField] private MajorEventDetails events;
 
     private string EventName {
         get { return eventName.text; }
