@@ -155,6 +155,7 @@ public class EventEditorWindow : EditorWindow
                 eventList.majorEvents[index].choices[i].choiceName = currentWindow.choices[i].choiceName;
                 eventList.majorEvents[index].choices[i].statChanges = currentWindow.choices[i].changeStatBy;
                 eventList.majorEvents[index].choices[i].statsToChange = currentWindow.choices[i].statsToChange;
+                eventList.majorEvents[index].choices[i].statChangesAsString = currentWindow.choices[i].statChangesAsString;
             }
         }
 
@@ -162,8 +163,7 @@ public class EventEditorWindow : EditorWindow
 
         if (eventList.majorEvents[index].choices.Count != 0)
         {
-            eventList.majorEvents[index].showChoices = EditorGUILayout.Foldout(eventList.majorEvents[index].showChoices, eventList.majorEvents[index].eventName, false);
-            labelContent.text = "fffffffffffffffff";
+            eventList.majorEvents[index].showChoices = EditorGUILayout.Foldout(eventList.majorEvents[index].showChoices, "", false);
             offset = 12;
         }
         else
@@ -181,7 +181,8 @@ public class EventEditorWindow : EditorWindow
         {
             for (int i = 0; i < eventList.majorEvents[index].choices.Count; i++)
             {
-                GUILayout.Label("".PadLeft(3) + eventList.majorEvents[index].choices[i].choiceName);
+                GUIContent childContent = new GUIContent("".PadLeft(3) + eventList.majorEvents[index].choices[i].choiceName, eventList.majorEvents[index].choices[i].statChangesAsString);
+                GUILayout.Label(childContent);
             }
         }
 
@@ -217,6 +218,8 @@ public class EventEditorWindow : EditorWindow
                         newChoice.choiceName = eventList.majorEvents[i].choices[j].choiceName;
                         newChoice.changeStatBy = eventList.majorEvents[i].choices[j].statChanges;
                         newChoice.statsToChange = eventList.majorEvents[i].choices[j].statsToChange;
+
+                        newChoice.LoadFromFile();
 
                         newWindow.choices.Add(newChoice);
                     }

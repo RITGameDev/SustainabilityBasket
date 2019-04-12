@@ -67,7 +67,7 @@ public class EventWindow : ScriptableObject
         }
         GUILayout.EndHorizontal();
 
-        using (GUILayout.HorizontalScope scope = new GUILayout.HorizontalScope())
+        using (GUILayout.HorizontalScope scope = new GUILayout.HorizontalScope(GUI.skin.scrollView))
         {
             for (int i = 0; i < choices.Count; i++)
             {

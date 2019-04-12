@@ -19,6 +19,9 @@ public class MajorEventChoices
     public string choiceName;
     public List<float> statChanges;
     public List<string> statsToChange;
+
+    [HideInInspector]
+    public string statChangesAsString;
 }
 
 [CreateAssetMenu(fileName = "MajorEvents", menuName = "Major Events Details")]

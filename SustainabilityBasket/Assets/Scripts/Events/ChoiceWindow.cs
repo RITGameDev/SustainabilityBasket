@@ -9,10 +9,11 @@ public class ChoiceWindow : ScriptableObject
     public string choiceName;
     public List<float> changeStatBy;
     public List<string> statsToChange;
-
-    List<CityData> cityDataStats;
+    public string statChangesAsString;
 
     Vector2 scrollPos;
+
+    List<CityData> cityDataStats;
 
     enum CityData
     {
@@ -25,19 +26,38 @@ public class ChoiceWindow : ScriptableObject
         population
     }
 
+    List<string> cityDataAsString = new List<string>()
+    {
+        "money",
+        "powerRequired",
+        "powerSupplied",
+        "AQI",
+        "costOfLiving",
+        "employmentRate",
+        "population"
+    };
+
     public void Init(Rect windowRect)
     {
         this.windowRect = windowRect;
         choiceName = "Input Name Here";
         changeStatBy = new List<float>();
-        cityDataStats = new List<CityData>();
         statsToChange = new List<string>();
         scrollPos = new Vector2();
+        cityDataStats = new List<CityData>();
+    }
+
+    public void LoadFromFile()
+    {
+        for (int i = 0; i < statsToChange.Count; i++)
+        {
+            cityDataStats.Add((CityData)cityDataAsString.IndexOf(statsToChange[i]));
+        }
     }
 
     public void DrawWindow()
     {
-        GUIStyle style = new GUIStyle();
+        statChangesAsString = "";
         using (GUILayout.AreaScope scope = new GUILayout.AreaScope(windowRect, choiceName, GUI.skin.window))
         {
             choiceName = EditorGUILayout.TextField(choiceName);
@@ -53,15 +73,28 @@ public class ChoiceWindow : ScriptableObject
             GUILayout.Label("Stat Change");
             GUILayout.Label("Stat To Change");
             GUILayout.EndHorizontal();
+            
+            if(statsToChange.Count == 0)
+            {
+                statChangesAsString = "No stat changes";
+            }
+            else
+            {
+                statChangesAsString = "Stat Changes: \n";
+            }
 
-            //scrollPos = EditorGUILayout.BeginScrollView(scrollPos, false, false);
-            for (int i = 0; i < changeStatBy.Count; i++)
+            for (int i = 0; i < statsToChange.Count; i++)
             {
                 changeStatBy[i] = EditorGUI.FloatField(new Rect(25, 75 + i * 25, 30, 20), changeStatBy[i]);
                 cityDataStats[i] = (CityData)EditorGUI.EnumPopup(new Rect(100, 75 + i * 25, (windowRect.width - 10) - 100, 20), cityDataStats[i]);
-                statsToChange[i] = cityDataStats[i].ToString();
+                statsToChange[i] = cityDataAsString[(int)cityDataStats[i]];
+                statChangesAsString += changeStatBy[i].ToString() + " " + cityDataStats[i].ToString();
+                
+                if (i + 1 != statsToChange.Count)
+                {
+                    statChangesAsString += "\n";
+                }
             }
-            //EditorGUILayout.EndScrollView();
         }
     }
 }
