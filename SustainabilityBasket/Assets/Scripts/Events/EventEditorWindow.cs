@@ -20,9 +20,14 @@ public class EventEditorWindow : EditorWindow
     public static void ShowWindow()
     {
         EventEditorWindow window = GetWindow<EventEditorWindow>("Event Editor");
-        window.minSize = new Vector2(770, 500);
         window.Show();
+        window.minSize = new Vector2(770, 500);
+    }
+
+    private void OnEnable()
+    {
         eventList = AssetDatabase.LoadAssetAtPath<MajorEventDetails>("Assets/Scripts/Events/MajorEvents.asset");
+        LoadFromEventList(new Rect(position.x, position.y, 770, 500));
     }
 
     private void OnGUI()
@@ -30,7 +35,7 @@ public class EventEditorWindow : EditorWindow
         if (!eventList)
         {
             eventList = AssetDatabase.LoadAssetAtPath<MajorEventDetails>("Assets/Scripts/Events/MajorEvents.asset");
-            LoadFromEventList();
+            LoadFromEventList(position);
         }
 
         if (eventWindows.Count == 0)
@@ -110,6 +115,10 @@ public class EventEditorWindow : EditorWindow
     {
         bool isActive = false;
 
+        GUIContent labelContent = new GUIContent(eventList.majorEvents[index].eventName, eventList.majorEvents[index].eventDescription);
+        GUIStyle labelStyle = GUI.skin.label;
+        labelStyle.normal.textColor = Color.grey;
+
         if (index == SelectedEvent)
         {
             isActive = true;
@@ -118,6 +127,8 @@ public class EventEditorWindow : EditorWindow
         if (isActive)
         {
             currentWindow = eventWindows[index];
+
+            labelStyle.normal.textColor = Color.green;
 
             if (currentWindow.ChoiceAdded)
             {
@@ -147,24 +158,27 @@ public class EventEditorWindow : EditorWindow
             }
         }
 
+        int offset = 0;
+
         if (eventList.majorEvents[index].choices.Count != 0)
         {
             eventList.majorEvents[index].showChoices = EditorGUILayout.Foldout(eventList.majorEvents[index].showChoices, eventList.majorEvents[index].eventName, false);
+            labelContent.text = "fffffffffffffffff";
+            offset = 12;
         }
         else
         {
-            EditorGUILayout.SelectableLabel(eventList.majorEvents[index].eventName, GUILayout.Height(15));
+            GUILayout.Label("", GUILayout.Height(15));
         }
 
         Rect areaRect = GUILayoutUtility.GetLastRect();
-        bool selected = GUI.Toggle(GUILayoutUtility.GetLastRect(), isActive, "", GUI.skin.label);
+        areaRect.x += offset;
+        areaRect.width -= offset;
+
+        bool selected = GUI.Toggle(areaRect, isActive, labelContent, GUI.skin.label);
 
         if (eventList.majorEvents[index].showChoices)
         {
-            areaRect.x += 10;
-            areaRect.y += 15;
-            areaRect.width -= areaRect.x;
-
             for (int i = 0; i < eventList.majorEvents[index].choices.Count; i++)
             {
                 GUILayout.Label("".PadLeft(3) + eventList.majorEvents[index].choices[i].choiceName);
@@ -180,10 +194,9 @@ public class EventEditorWindow : EditorWindow
             currentWindow = eventWindows[SelectedEvent];
         }
 
-        Debug.Log("Selected:" + SelectedEvent);
     }
 
-    void LoadFromEventList()
+    void LoadFromEventList(Rect windowSize)
     {
         if (eventList.majorEvents.Count > 0)
         {
@@ -191,7 +204,7 @@ public class EventEditorWindow : EditorWindow
             for (int i = 0; i < eventList.majorEvents.Count; i++)
             {
                 EventWindow newWindow = CreateInstance<EventWindow>();
-                newWindow.windowRect = new Rect(250, 0, position.width - 250, position.height);
+                newWindow.windowRect = new Rect(250, 0, windowSize.width - 250, windowSize.height);
                 newWindow.EventName = eventList.majorEvents[i].eventName;
                 newWindow.Description = eventList.majorEvents[i].eventDescription;
 
@@ -210,8 +223,7 @@ public class EventEditorWindow : EditorWindow
                 }
                 eventWindows.Add(newWindow);
             }
+            currentWindow = eventWindows[0];
         }
-
-        currentWindow = eventWindows[0];
     }
 }
