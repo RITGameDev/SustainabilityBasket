@@ -133,12 +133,10 @@ public class RoundManager : MonoBehaviour
             selectedTech.UnlockTech();
 
             //Set the relevant city data values
-            CityData dataRef = GetComponent<CityData>();
-
-            dataRef.money += netMoney;
-            dataRef.population += netPop;
-            dataRef.powerRequired += netPowerLimit;
-            dataRef.AQI += netAQI;
+            CityData.money += netMoney;
+            CityData.population += netPop;
+            CityData.powerRequired += netPowerLimit;
+            CityData.AQI += netAQI;
 
             //Reset the round and move the timeline
             ResetRound();
