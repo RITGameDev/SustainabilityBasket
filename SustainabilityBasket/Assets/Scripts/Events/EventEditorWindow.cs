@@ -14,13 +14,14 @@ public class EventEditorWindow : EditorWindow
         set { EditorPrefs.SetInt("SelectedEvent", value); }
     }
 
-    static MajorEventDetails eventList;
+    public static MajorEventDetails eventList;
 
     [MenuItem("Window/Event Maker")]
     public static void ShowWindow()
     {
         EventEditorWindow window = GetWindow<EventEditorWindow>("Event Editor");
         window.minSize = new Vector2(770, 500);
+        window.Show();
         eventList = AssetDatabase.LoadAssetAtPath<MajorEventDetails>("Assets/Scripts/Events/MajorEvents.asset");
     }
 
@@ -29,6 +30,7 @@ public class EventEditorWindow : EditorWindow
         if (!eventList)
         {
             eventList = AssetDatabase.LoadAssetAtPath<MajorEventDetails>("Assets/Scripts/Events/MajorEvents.asset");
+            LoadFromEventList();
         }
 
         if (eventWindows.Count == 0)
@@ -111,7 +113,10 @@ public class EventEditorWindow : EditorWindow
         if (index == SelectedEvent)
         {
             isActive = true;
+        }
 
+        if (isActive)
+        {
             currentWindow = eventWindows[index];
 
             if (currentWindow.ChoiceAdded)
@@ -123,6 +128,12 @@ public class EventEditorWindow : EditorWindow
                     statsToChange = new List<string>()
                 });
                 currentWindow.ChoiceAdded = false;
+            }
+
+            if (currentWindow.AllRemoved)
+            {
+                eventList.majorEvents[index].choices.Clear();
+                currentWindow.AllRemoved = false;
             }
 
             eventList.majorEvents[index].eventName = currentWindow.EventName;
@@ -138,25 +149,69 @@ public class EventEditorWindow : EditorWindow
 
         if (eventList.majorEvents[index].choices.Count != 0)
         {
-            eventList.majorEvents[index].showChoices = EditorGUILayout.Foldout(eventList.majorEvents[index].showChoices, eventList.majorEvents[index].eventName, true);
+            eventList.majorEvents[index].showChoices = EditorGUILayout.Foldout(eventList.majorEvents[index].showChoices, eventList.majorEvents[index].eventName, false);
         }
         else
         {
             EditorGUILayout.SelectableLabel(eventList.majorEvents[index].eventName, GUILayout.Height(15));
         }
 
+        Rect areaRect = GUILayoutUtility.GetLastRect();
+        bool selected = GUI.Toggle(GUILayoutUtility.GetLastRect(), isActive, "", GUI.skin.label);
+
         if (eventList.majorEvents[index].showChoices)
         {
-            EditorGUI.indentLevel++;
+            areaRect.x += 10;
+            areaRect.y += 15;
+            areaRect.width -= areaRect.x;
 
-            GUILayout.BeginVertical();
             for (int i = 0; i < eventList.majorEvents[index].choices.Count; i++)
             {
-                GUILayout.Label(eventList.majorEvents[index].choices[i].choiceName);
+                GUILayout.Label("".PadLeft(3) + eventList.majorEvents[index].choices[i].choiceName);
             }
-            GUILayout.EndVertical();
-
-            EditorGUI.indentLevel--;
         }
+
+        if (selected && !isActive)
+        {
+            GUI.FocusControl(null);
+
+            SelectedEvent = index;
+
+            currentWindow = eventWindows[SelectedEvent];
+        }
+
+        Debug.Log("Selected:" + SelectedEvent);
+    }
+
+    void LoadFromEventList()
+    {
+        if (eventList.majorEvents.Count > 0)
+        {
+            eventWindows.Clear();
+            for (int i = 0; i < eventList.majorEvents.Count; i++)
+            {
+                EventWindow newWindow = CreateInstance<EventWindow>();
+                newWindow.windowRect = new Rect(250, 0, position.width - 250, position.height);
+                newWindow.EventName = eventList.majorEvents[i].eventName;
+                newWindow.Description = eventList.majorEvents[i].eventDescription;
+
+                if (eventList.majorEvents[i].choices.Count > 0)
+                {
+                    for (int j = 0; j < eventList.majorEvents[i].choices.Count; j++)
+                    {
+                        ChoiceWindow newChoice = CreateInstance<ChoiceWindow>();
+                        newChoice.Init(new Rect(6, 160, 252, 280));
+                        newChoice.choiceName = eventList.majorEvents[i].choices[j].choiceName;
+                        newChoice.changeStatBy = eventList.majorEvents[i].choices[j].statChanges;
+                        newChoice.statsToChange = eventList.majorEvents[i].choices[j].statsToChange;
+
+                        newWindow.choices.Add(newChoice);
+                    }
+                }
+                eventWindows.Add(newWindow);
+            }
+        }
+
+        currentWindow = eventWindows[0];
     }
 }
