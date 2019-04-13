@@ -49,6 +49,11 @@ public class EventEditorWindow : EditorWindow
         {
             DrawEditorWindow();
         }
+        else if (currentWindow == null && eventWindows.Count != 0)
+        {
+            currentWindow = eventWindows[SelectedEvent];
+            DrawEditorWindow();
+        }
     }
 
     void DrawEditorWindow()
@@ -156,6 +161,8 @@ public class EventEditorWindow : EditorWindow
                 eventList.majorEvents[index].choices[i].statChanges = currentWindow.choices[i].changeStatBy;
                 eventList.majorEvents[index].choices[i].statsToChange = currentWindow.choices[i].statsToChange;
                 eventList.majorEvents[index].choices[i].statChangesAsString = currentWindow.choices[i].statChangesAsString;
+                eventList.majorEvents[index].choices[i].statChangesToDisplay = currentWindow.choices[i].statChangesToDisplay;
+
             }
         }
 

@@ -10,6 +10,7 @@ public class ChoiceWindow : ScriptableObject
     public List<float> changeStatBy;
     public List<string> statsToChange;
     public string statChangesAsString;
+    public string statChangesToDisplay;
 
     Vector2 scrollPos;
 
@@ -37,6 +38,17 @@ public class ChoiceWindow : ScriptableObject
         "population"
     };
 
+    List<string> cityDataAsFormattedString = new List<string>()
+    {
+        "Money",
+        "Power Required",
+        "Power Supplied",
+        "AQI",
+        "Cost Of Living",
+        "Employment Rate",
+        "Population"
+    };
+
     public void Init(Rect windowRect)
     {
         this.windowRect = windowRect;
@@ -58,6 +70,7 @@ public class ChoiceWindow : ScriptableObject
     public void DrawWindow()
     {
         statChangesAsString = "";
+        statChangesToDisplay = "";
         using (GUILayout.AreaScope scope = new GUILayout.AreaScope(windowRect, choiceName, GUI.skin.window))
         {
             choiceName = EditorGUILayout.TextField(choiceName);
@@ -77,6 +90,7 @@ public class ChoiceWindow : ScriptableObject
             if(statsToChange.Count == 0)
             {
                 statChangesAsString = "No stat changes";
+                statChangesToDisplay = "No stat changes";
             }
             else
             {
@@ -88,11 +102,25 @@ public class ChoiceWindow : ScriptableObject
                 changeStatBy[i] = EditorGUI.FloatField(new Rect(25, 75 + i * 25, 30, 20), changeStatBy[i]);
                 cityDataStats[i] = (CityData)EditorGUI.EnumPopup(new Rect(100, 75 + i * 25, (windowRect.width - 10) - 100, 20), cityDataStats[i]);
                 statsToChange[i] = cityDataAsString[(int)cityDataStats[i]];
-                statChangesAsString += changeStatBy[i].ToString() + " " + cityDataStats[i].ToString();
+                statChangesAsString += changeStatBy[i].ToString() + " " + cityDataAsFormattedString[(int)cityDataStats[i]];
                 
+                if (changeStatBy[i] < 0)
+                {
+                    statChangesToDisplay += "- " + cityDataAsFormattedString[(int)cityDataStats[i]];
+                }
+                else if (changeStatBy[i] > 0)
+                {
+                    statChangesToDisplay += "+ " + cityDataAsFormattedString[(int)cityDataStats[i]];
+                }
+                else
+                {
+                    statChangesToDisplay += "= " + cityDataAsFormattedString[(int)cityDataStats[i]];
+                }
+
                 if (i + 1 != statsToChange.Count)
                 {
                     statChangesAsString += "\n";
+                    statChangesToDisplay += "\n";
                 }
             }
         }

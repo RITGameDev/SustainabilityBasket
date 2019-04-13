@@ -22,6 +22,7 @@ public class MajorEventChoices
 
     [HideInInspector]
     public string statChangesAsString;
+    public string statChangesToDisplay;
 }
 
 [CreateAssetMenu(fileName = "MajorEvents", menuName = "Major Events Details")]
