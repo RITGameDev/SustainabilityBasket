@@ -1,22 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[CreateAssetMenu(fileName = "Corporation", menuName = "Corporation", order = 1)]
 public class Corporation : ScriptableObject
 {
-    new string name;
-    int power;
-    int aqi;
-    int cost;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public new string name;
+    public int power;
+    public int aqi;
+    public int cost;
 }
