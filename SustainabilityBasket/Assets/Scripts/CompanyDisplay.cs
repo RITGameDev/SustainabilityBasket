@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 [ExecuteInEditMode]
 public class CompanyDisplay : MonoBehaviour
 {
@@ -16,16 +17,23 @@ public class CompanyDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateCompanyName();
+        UpdateProp("CompanyName", corp.name);
+        UpdateProp("PowerSupplied", corp.power.ToString());
+        UpdateProp("AQIContributed", corp.aqi.ToString());
+        UpdateProp("Cost", corp.cost.ToString());
     }
 
-     GetText(GameObject go)
+    TextMeshProUGUI GetText(GameObject go)
     {
-        return go.GetComponent<TextMesh>();
+        return go.GetComponent<TextMeshProUGUI>();
     }
 
-    void UpdateCompanyName()
+    //void UpdateCompanyName()
+    //{
+    //    GetText(GameObject.Find("CompanyDisplay/CompanyName")).text = corp.name;
+    //}
+    void UpdateProp(string prop, string value)
     {
-        GetText(GameObject.Find("CompanyDisplay/CompanyName")).text = corp.name;
+        GetText(GameObject.Find("CompanyDisplay/" + prop)).text = value;
     }
 }
