@@ -16,6 +16,8 @@ public class Popup : MonoBehaviour
 
     [SerializeField] private MajorEventDetails events;
 
+    [SerializeField] private ChoicePopupArea choicePopupArea;
+
     private string EventName {
         get { return eventName.text; }
         set { eventName.text = value; }
@@ -68,6 +70,8 @@ public class Popup : MonoBehaviour
         {
             EventName = events.majorEvents[0].eventName;
             EventDescription = events.majorEvents[0].eventDescription;
+            choicePopupArea.DisplayChoices(0);
+            choicePopupArea.gameObject.SetActive(true);
         }
     }
 
